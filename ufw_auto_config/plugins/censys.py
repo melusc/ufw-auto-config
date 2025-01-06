@@ -14,16 +14,16 @@ You should have received a copy of the GNU General Public
 License along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-
 from .. import ufw
 from pathlib import Path
 
 # https://about.censys.io
 # https://support.censys.io/hc/en-us/articles/360043177092-Opt-Out-of-Data-Collection
-ranges_path = Path(__file__).parent / 'censys_scanning_ranges.txt'
+ranges_path = Path(__file__).parent / "censys_scanning_ranges.txt"
+
 
 def censys():
-    with ranges_path.open('r') as f:
+    with ranges_path.open("r") as f:
         for ip_range in f:
             if ip_range := ip_range.strip():
                 ufw.deny(ip_range=ip_range, comment="censys.io")
