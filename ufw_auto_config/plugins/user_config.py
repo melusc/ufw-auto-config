@@ -16,10 +16,11 @@ License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 from schema import Schema, Optional, Or, And, Use
 from yaml import load, SafeLoader
+from yaml.error import YAMLError
 from pathlib import Path
 from dataclasses import dataclass
 
-from .. import ufw
+from .. import ufw, error
 
 
 @dataclass
@@ -63,10 +64,15 @@ config_schema = Schema(
 def _load_config() -> Config:
     config_path = Path(__file__).parent.parent.parent / "config.yml"
 
-    with config_path.open("r") as f:
-        config = load(f, Loader=SafeLoader)
+    try:
+        with config_path.open("r") as f:
+            config = load(f, Loader=SafeLoader)
 
-        return config_schema.validate(config)
+            return config_schema.validate(config)
+    except FileNotFoundError:
+        raise error.UserError("Cannot read config.yml because it does not exist.")
+    except YAMLError:
+        raise error.UserError("config.yml contains invalid yaml.")
 
 
 def user_config():

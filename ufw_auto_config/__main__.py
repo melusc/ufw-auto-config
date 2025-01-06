@@ -18,7 +18,7 @@ import logging
 import os
 from pathlib import Path
 
-from . import ufw, plugins
+from . import ufw, plugins, error
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,9 @@ if __name__ == "__main__":
         status = ufw.status()
         print(status)
         logger.info(status)
+    except error.UserError as e:
+        print(f"Error: {e}")
+        exit(1)
     except:
         import traceback
 
