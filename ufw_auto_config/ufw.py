@@ -67,7 +67,7 @@ def deny(*, port: int = None, ip_range: str = None, comment: str = None):
 def enable():
     # Always allow ssh as a fail-safe
     logger.debug("Enabling SSH as a fail-safe.")
-    allow(port=22, comment="SSH")
+    allow(port=22, comment="SSH fail-safe")
 
     logger.debug("Enabling UFW.")
     _exec(("enable",), stdin=b"y\n")

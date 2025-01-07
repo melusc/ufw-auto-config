@@ -26,7 +26,11 @@ logger = logging.getLogger(__name__)
 def configure_logging():
     log_dir = Path(__file__).parent.parent / "logs"
     log_dir.mkdir(exist_ok=True)
-    logging.basicConfig(filename=log_dir / "ufw-auto-config.log", level=logging.DEBUG)
+    logging.basicConfig(
+        filename=log_dir / "ufw-auto-config.log",
+        level=logging.DEBUG,
+        format="%(asctime)s %(levelname)s:%(name)s %(message)s",
+    )
 
 
 def assert_root():
