@@ -35,7 +35,6 @@ _ip_range_schema = Schema(
         str,
         Use(json.loads),
         {
-            "creationTime": str,
             "prefixes": [
                 And(
                     {
@@ -56,6 +55,7 @@ _ip_range_schema = Schema(
                 )
             ],
         },
+        ignore_extra_keys=True,
     ),
 )
 

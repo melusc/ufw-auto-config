@@ -14,18 +14,11 @@ You should have received a copy of the GNU General Public
 License along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
-from .openai import openai
-from .censys import censys
-from .user_config import user_config
-from .ahrefs import ahrefs
+from ..ip_range_api import import_from_api
+
+# https://docs.ahrefs.com/docs/api/public/operations/list-crawler-ip-ranges
+api_url = "https://api.ahrefs.com/v3/public/crawler-ip-ranges"
 
 
-def configure():
-    openai()
-    censys()
-    ahrefs()
-
-    # User config last
-    # Other plugins use deny
-    # If allows are before, it will not apply the deny
-    user_config()
+def ahrefs():
+    import_from_api(name="AhrefsBot", url=api_url)
