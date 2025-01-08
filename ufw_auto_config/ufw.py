@@ -21,9 +21,9 @@ from typing import Literal
 logger = logging.getLogger(__name__)
 
 
-def _exec(args: tuple[str], *, stdin=b""):
-    logger.info("$ ufw %s ; stdin=%s", " ".join(args), stdin)
-    output = subprocess.run(["/usr/sbin/ufw", *args], capture_output=True, input=stdin)
+def _exec(args: tuple[str]):
+    logger.info("$ ufw %s", " ".join(args))
+    output = subprocess.run(["/usr/sbin/ufw", *args], capture_output=True)
     logger.info("-> %s", output)
     output.check_returncode()
     return output
@@ -70,11 +70,11 @@ def enable():
     allow(port=22, comment="SSH fail-safe")
 
     logger.debug("Enabling UFW.")
-    _exec(("enable",), stdin=b"y\n")
+    _exec(("--force", "enable"))
 
 
 def reset():
-    _exec(("reset",), stdin=b"y\n")
+    _exec(("--force", "reset"))
 
 
 def status():
